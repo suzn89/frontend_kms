@@ -47,19 +47,21 @@ const Input = styled.input`
 `;
 
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ disabled?: boolean }>`
   margin-top: 16px;
   width: 100%;
   max-width: 690px;
   height: 48px;
-  background-color: #1d1d1b;
-  color: #fff;
+  background-color: ${({ disabled }) => (disabled ? '#aaa' : '#1d1d1b')};
+  color: white;
   font-size: 15px;
   font-weight: 600;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+  transition: background-color 0.2s;
 `;
+
 interface InputFormProps {
   value: string;
   name: string;
@@ -68,6 +70,7 @@ interface InputFormProps {
   onSubmit: () => void;
   category: string;
   onCategoryChange: (value: string) => void;  
+  disabled?: boolean; // 질문하기 버튼 비활성화 여부
 }
 
 const InputForm = ({
@@ -76,6 +79,7 @@ const InputForm = ({
   onSubmit,
   category,
   onCategoryChange,
+  disabled = false
 }: InputFormProps) => {
   return (
     <>
@@ -92,7 +96,9 @@ const InputForm = ({
           placeholder="ABLE KMS에서 가장 알맞은 답변을 찾아드릴게요"
         />
       </FormWrapper>
-      <SubmitButton onClick={onSubmit}>질문하기</SubmitButton>
+      <SubmitButton onClick={onSubmit} disabled={disabled}>
+        {disabled ? '질문하기' : '질문하기'}
+      </SubmitButton>
     </>
   );
 };

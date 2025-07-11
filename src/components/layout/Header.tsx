@@ -5,6 +5,7 @@ import headerLogo from '../../assets/icons/logo.png';
 import { useState } from 'react';
 import InputModal from '../ui/InputModal';
 import ConfirmModal from '../ui/ConfirmModal';
+import { Link } from 'react-router-dom';
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -25,7 +26,7 @@ const HeaderCont = styled.div`
     li {
       display: inline-block;
       margin-left: 20px;
-      color: #787878;
+      color: #2D2926;
     }
   }
 `;
@@ -34,15 +35,6 @@ const Nav = styled.li`
   font-size: 14px;
   cursor: pointer;
   list-style: none;
-`;
-const Confirm = styled.li`
-  font-size: 14px;
-  color: #2D2926;
-  list-style: none;
-  cursor: pointer;
-  span {
-    color: #FF6900;
-  }
 `;
 
 const LinkGroupware = styled.li`
@@ -74,9 +66,13 @@ const Header = () => {
     <>
       <HeaderWrapper>
         <HeaderCont>
-          <img src={headerLogo} alt="ABLE KMS로고" />
+          <Link to="/">
+            <img src={headerLogo} alt="ABLE KMS로고" />
+          </Link>
           <ul>
-            <LinkGroupware><span>ABLE</span> C&C 그룹웨어</LinkGroupware>
+            <LinkGroupware as="a" href="https://portal.ablecnc.com/" target="_blank" rel="noopener noreferrer">
+              <span>ABLE</span> C&C 그룹웨어
+            </LinkGroupware>
             <Nav onClick={() => setIsModalOpen(true)}>관리자키 입력</Nav>
             <Nav onClick={() => setShowConfirm(true)}>Confirm Modal</Nav>
           </ul>

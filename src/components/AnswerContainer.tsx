@@ -1,10 +1,12 @@
 // src/components/AnswerContainer.tsx
 import styled from 'styled-components';
+import LoadingSpinner from './ui/LodingSpinner';
 
 interface Props {
   title: string;
   category: string;
   content: string;
+  isLoading?: boolean; // 로딩 상태 추가
 }
 
 const ContainerWrapper = styled.div`
@@ -46,13 +48,19 @@ const Content = styled.div`
   white-space: pre-line;
 `;
 
-const AnswerContainer = ({ title, category, content }: Props) => {
+const AnswerContainer = ({ title, category, content, isLoading }: Props) => {
   return (
     <ContainerWrapper>
       <Container>
-        <Title>{title}</Title>
-        <Category>{category}</Category>
-        <Content>{content}</Content>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <Title>{title}</Title>
+            <Category>{category}</Category>
+            <Content>{content}</Content>
+          </>
+        )}
       </Container>
     </ContainerWrapper>
   );

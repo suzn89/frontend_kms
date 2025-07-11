@@ -41,16 +41,31 @@ const MainPage = () => {
 
 
   
-  // ✅ 카테고리 상태 추가
+  // 카테고리 상태 추가
   const [category, setCategory] = useState('전체');
+
+  // 로딩 상태 관리 : 질문하기 버튼 클릭 시 로딩 스피너 표시
+  const [loading, setLoading] = useState(false);
 
 
   // 질문하기 버튼 클릭 시 실행될 함수
-  const handleSubmit = () => {
-    if (!question.trim()) return; // 공백 입력 방지
+  const handleSubmit = async () => {
+    if (!question.trim() || loading) return; // 공백 & 중복 방지
 
-    setDisplayedQuestion(question); // 지금 질문을 답변 제목으로 고정
-    setAnswer(`"${question}"에 대한 답변입니다.\n\n- 예시 항목\n- 두 번째 줄`); // 예시 답변
+    setLoading(true);
+    setDisplayedQuestion(question);
+    setAnswer('');    
+
+    try {
+      // 응답 시뮬레이션: 실제 API 호출 대신 1.5초 대기
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setAnswer(`"${question}"에 대한 답변입니다.\n\n- 예시 항목\n- 두 번째 줄`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // 무조건 로딩 해제
+    }
   };
 
   return (
@@ -68,13 +83,12 @@ const MainPage = () => {
           name={''} id={''}
           category={category}
           onCategoryChange={setCategory}
+          disabled={loading} // 버튼 비활성화 제어용
         />      
 
-        {/* // todo: 로딩 스피너 답변 노출 wrap 안에서 나타날 수 있게 변경 필요 */}
-        <LoadingSpinner />
   
         {/* 답변이 있을 경우에만 렌더링 */}
-        {answer && (
+        {(loading || answer) && (
           <AnswerContainer
             title={displayedQuestion}
             category={category}
@@ -83,6 +97,7 @@ const MainPage = () => {
 
         - 은세미로스 업체에 연락하여 상황 전달 후, EC2 이미지에 해당하는 라이센스 파일 적용
         - 담당자: 이강진 팀장 HP 010-4049-9197`}
+            isLoading={loading}
           />
         )}
       </PageWrapper> 

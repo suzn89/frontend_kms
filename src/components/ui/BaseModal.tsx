@@ -48,7 +48,7 @@ const Overlay = styled.div`
 const ModalBox = styled.div`
   background-color: #fff;
   border-radius: 12px;
-  padding: 32px;
+  padding: 20px 25px 20px;
   width: 400px;
   max-width: 90%;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
